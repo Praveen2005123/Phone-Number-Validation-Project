@@ -1,0 +1,41 @@
+import re
+import time
+
+def validate_phone_number(phone_number):
+    print("\n🔍 Checking phone number validity...")
+    time.sleep(1)
+
+    cleaned_number = re.sub(r'[()\s-]', '', phone_number)
+
+    if cleaned_number == "":
+        print("⚠️ No number entered! Please provide a phone number.")
+        return
+
+    if not re.match(r'^\+?\d+$', cleaned_number):
+        print("❌ Invalid characters detected! Only digits and '+' are allowed.")
+        return
+
+    digits_only = re.sub(r'\D', '', cleaned_number)
+    if len(digits_only) < 10:
+        print("❌ Too short! A valid number must have at least 10 digits.")
+        return
+    elif len(digits_only) > 15:
+        print("❌ Too long! A valid number cannot exceed 15 digits.")
+        return
+
+    pattern = r'^\+?\d{10,15}$'
+    if re.fullmatch(pattern, cleaned_number):
+        print("✅ Valid phone number detected!")
+        print(f"📞 Cleaned Format: {cleaned_number}")
+        if cleaned_number.startswith("+91") or cleaned_number.startswith("91"):
+            print("🌏 Region Detected: India 🇮🇳")
+        else:
+            print("🌍 Region: International format detected")
+    else:
+        print("❌ Invalid format! Please check your number again.")
+
+print("📱 Phone Number Validation System")
+print("----------------------------------")
+
+number = input("Enter a phone number: ")
+validate_phone_number(number)
